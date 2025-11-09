@@ -135,17 +135,40 @@
                 width: 50px;
                 height: 30px;
                 margin-right: 0.4rem;
+                filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+                animation: lampGlowMobile 2s ease-in-out infinite alternate;
+                -webkit-animation: lampGlowMobile 2s ease-in-out infinite alternate;
+            }
+            .lamp-icon img {
+                filter: brightness(1.05) drop-shadow(0 0 2px rgba(255, 215, 0, 0.4));
+            }
+        }
+        @keyframes lampGlowMobile {
+            0% {
+                filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+            }
+            100% {
+                filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
+            }
+        }
+        @-webkit-keyframes lampGlowMobile {
+            0% {
+                -webkit-filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+            }
+            100% {
+                -webkit-filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
             }
         }
         /* Ensure glow works on touch devices */
         @media (hover: none) and (pointer: coarse) {
             .lamp-icon {
-                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.9));
-                animation: lampGlow 2s ease-in-out infinite alternate;
-                -webkit-animation: lampGlow 2s ease-in-out infinite alternate;
+                filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6));
+                animation: lampGlowMobile 2s ease-in-out infinite alternate;
+                -webkit-animation: lampGlowMobile 2s ease-in-out infinite alternate;
             }
             button:active .lamp-icon {
                 transform: scale(1.05);
+                filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.7));
             }
         }
     </style>
