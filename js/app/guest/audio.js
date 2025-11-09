@@ -149,6 +149,24 @@ export const audio = (() => {
             try {
                 await loadYouTubeAPI();
                 
+                // Suppress YouTube postMessage warnings (harmless - YouTube API internal messages)
+                const originalWarn = console.warn;
+                const originalError = console.error;
+                console.warn = function(...args) {
+                    const message = args.join(' ');
+                    if (message.includes('postMessage') && message.includes('youtube.com')) {
+                        return; // Suppress YouTube postMessage warnings
+                    }
+                    originalWarn.apply(console, args);
+                };
+                console.error = function(...args) {
+                    const message = args.join(' ');
+                    if (message.includes('postMessage') && message.includes('youtube.com')) {
+                        return; // Suppress YouTube postMessage errors
+                    }
+                    originalError.apply(console, args);
+                };
+                
                 // Create hidden iframe container
                 const container = document.createElement('div');
                 container.id = 'youtube-audio-player';
