@@ -45,6 +45,91 @@ html[data-bs-theme="light"] .btn-transparent {
     z-index: 1056;
 }
 
+#welcome {
+    background-color: transparent !important;
+    overflow-x: hidden;
+    width: 100vw !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+}
+
+#welcome video {
+    width: 100vw !important;
+    min-width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    object-fit: cover !important;
+    position: fixed !important;
+    z-index: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+}
+
+@media screen and (min-width: 993px) {
+    #welcome video {
+        width: 100vw !important;
+        min-width: 100vw !important;
+        height: 100vh !important;
+        min-height: 100vh !important;
+        left: 0 !important;
+        top: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        object-fit: cover !important;
+        position: fixed !important;
+        z-index: 0 !important;
+        display: block !important;
+        visibility: visible !important;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .width-loading {
+        width: 50%;
+    }
+    
+    #welcome {
+        width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-top: 0 !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        padding-top: 0 !important;
+        overflow-x: hidden !important;
+    }
+    
+    #welcome video {
+        width: calc(100vw + 2px) !important;
+        min-width: calc(100vw + 2px) !important;
+        height: calc(100vh + 2px) !important;
+        min-height: calc(100vh + 2px) !important;
+        left: -1px !important;
+        top: -1px !important;
+        right: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        object-fit: cover !important;
+        position: fixed !important;
+    }
+}
+
 html[data-bs-theme="light"] .color-theme-svg {
     color: rgb(255, 255, 255);
     background-color: var(--bs-light);
@@ -90,11 +175,28 @@ html[data-bs-theme="dark"] .bg-white-black {
     .width-loading {
         width: 50%;
     }
+    
+    #welcome {
+        width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: transparent !important;
+    }
 }
 
 @media screen and (max-width: 576px) {
     .width-loading {
         width: 75%;
+    }
+    
+    #welcome {
+        width: 100vw !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 }
 

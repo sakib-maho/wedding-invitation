@@ -593,13 +593,89 @@
     </div>
 
     <!-- Welcome Page -->
-    <div class="loading-page bg-white-black" id="welcome" style="opacity: 1;">
-        <div class="d-flex justify-content-center align-items-center vh-100 overflow-y-auto">
+    <div class="loading-page" id="welcome" style="opacity: 1; position: fixed; inset: 0; margin: 0; padding: 0; background-color: transparent; overflow: hidden; width: 100vw; left: 0; right: 0; top: 0;">
+        <!-- Video Background covering full width -->
+        <video id="welcome-video" autoplay loop muted playsinline preload="auto" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; object-position: center; z-index: 0; margin: 0; padding: 0; min-width: 100vw; min-height: 100vh; display: block; visibility: visible; background-color: transparent;">
+            <source src="./assets/images/Copy of Gold and Teal Illustrated Nikaah Invitation Mobile Video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <script>
+            (function() {
+                const video = document.getElementById('welcome-video');
+                if (video) {
+                    // Ensure video is visible
+                    video.style.display = 'block';
+                    video.style.visibility = 'visible';
+                    video.style.opacity = '1';
+                    
+                    let isSeeking = false;
+                    
+                    // Set start time to 1 second
+                    const setStartTime = function() {
+                        if (video.readyState >= 2 && !isSeeking) {
+                            isSeeking = true;
+                            video.currentTime = 1;
+                            setTimeout(function() {
+                                isSeeking = false;
+                            }, 100);
+                        }
+                    };
+                    
+                    // Try to play when video can play
+                    const tryPlay = function() {
+                        setStartTime();
+                        video.play().catch(function(error) {
+                            console.log('Video autoplay prevented:', error);
+                            // Try again after a short delay
+                            setTimeout(tryPlay, 100);
+                        });
+                    };
+                    
+                    // Ensure video loops from 1 second to 5 seconds
+                    video.addEventListener('timeupdate', function() {
+                        if (!isSeeking && video.currentTime >= 4.9) {
+                            isSeeking = true;
+                            video.currentTime = 1;
+                            setTimeout(function() {
+                                isSeeking = false;
+                            }, 100);
+                        }
+                    });
+                    
+                    // Also handle seeking to ensure we start at 1 second
+                    video.addEventListener('seeked', function() {
+                        if (video.currentTime < 1) {
+                            video.currentTime = 1;
+                        }
+                        if (video.currentTime > 5) {
+                            video.currentTime = 1;
+                        }
+                    });
+                    
+                    // Try to play when loaded
+                    if (video.readyState >= 2) {
+                        setStartTime();
+                        setTimeout(tryPlay, 100);
+                    } else {
+                        video.addEventListener('loadedmetadata', function() {
+                            setStartTime();
+                        });
+                        video.addEventListener('loadeddata', function() {
+                            setStartTime();
+                            setTimeout(tryPlay, 100);
+                        });
+                        video.addEventListener('canplay', function() {
+                            setStartTime();
+                            tryPlay();
+                        });
+                        video.load();
+                    }
+                }
+            })();
+        </script>
+        
+        <div style="position: relative; z-index: 1; height: 100vh; display: flex; justify-content: center; align-items: center; overflow-y: auto; width: 100vw;">
             <div class="d-flex flex-column text-center">
-                <!-- GIF Animation above Wedding Invitation -->
-                <div class="d-flex justify-content-center align-items-center mb-3">
-                    <img src="./assets/images/placeholder.webp" data-src="./assets/images/Copy of Gold and Teal Illustrated Nikaah Invitation Mobile Video.gif" fetchpriority="high" decoding="async" alt="Wedding animation" class="img-fluid mx-auto" style="max-width: 300px; max-height: 300px; width: auto; height: auto; object-fit: contain;">
-                </div>
                 <h2 class="font-esthetic mb-4" style="font-size: 2.25rem;">Wedding Invitation</h2>
 
                 <img src="./assets/images/placeholder.webp" data-src="./assets/images/bg1.webp" fetchpriority="high" decoding="async" alt="background" class="img-center-crop rounded-circle border border-3 border-light shadow mb-4 mx-auto">
