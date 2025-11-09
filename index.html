@@ -603,11 +603,8 @@
             (function() {
                 const video = document.getElementById('welcome-video');
                 if (video) {
-                    // Ensure video is visible on desktop
-                    video.style.display = 'block';
-                    video.style.visibility = 'visible';
-                    video.style.opacity = '1';
-                    video.style.zIndex = '0';
+                    // Force video to be visible (same as mobile)
+                    video.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; object-position: center; z-index: 0; margin: 0; padding: 0; min-width: 100vw; min-height: 100vh; display: block !important; visibility: visible !important; opacity: 1 !important; background-color: transparent;';
                     
                     let isSeeking = false;
                     
@@ -627,14 +624,17 @@
                         setStartTime();
                         const playPromise = video.play();
                         if (playPromise !== undefined) {
-                            playPromise.catch(function(error) {
+                            playPromise.then(function() {
+                                // Video started playing
+                                console.log('Video playing');
+                            }).catch(function(error) {
                                 console.log('Video autoplay prevented:', error);
-                                // Try again after a short delay, especially for desktop
+                                // Try again after a delay
                                 setTimeout(function() {
                                     video.play().catch(function(e) {
                                         console.log('Retry play failed:', e);
                                     });
-                                }, 500);
+                                }, 1000);
                             });
                         }
                     };
@@ -660,7 +660,7 @@
                         }
                     });
                     
-                    // Ensure video plays when it becomes visible (for desktop)
+                    // Ensure video plays when it becomes visible
                     video.addEventListener('loadedmetadata', function() {
                         setStartTime();
                     });
@@ -668,11 +668,11 @@
                     // Try to play when loaded
                     if (video.readyState >= 2) {
                         setStartTime();
-                        setTimeout(tryPlay, 200);
+                        setTimeout(tryPlay, 300);
                     } else {
                         video.addEventListener('loadeddata', function() {
                             setStartTime();
-                            setTimeout(tryPlay, 200);
+                            setTimeout(tryPlay, 300);
                         });
                         video.addEventListener('canplay', function() {
                             setStartTime();
@@ -685,14 +685,17 @@
                         video.load();
                     }
                     
-                    // Force play on user interaction (for desktop browsers that block autoplay)
-                    document.addEventListener('click', function() {
+                    // Force play on any user interaction (for desktop browsers that block autoplay)
+                    const playOnInteraction = function() {
                         if (video.paused) {
                             video.play().catch(function(e) {
-                                console.log('Click play failed:', e);
+                                console.log('Interaction play failed:', e);
                             });
                         }
-                    }, { once: true });
+                    };
+                    document.addEventListener('click', playOnInteraction, { once: true });
+                    document.addEventListener('touchstart', playOnInteraction, { once: true });
+                    document.addEventListener('keydown', playOnInteraction, { once: true });
                 }
             })();
         </script>
