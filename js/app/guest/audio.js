@@ -69,19 +69,83 @@ export const audio = (() => {
             return;
         }
 
-        const music = document.getElementById('button-music');
-        let isPlay = false;
-        let audioEl = null;
-        let youtubePlayer = null;
-
-        // Handle YouTube URLs
+        // Early check for YouTube URLs - must be handled separately
         if (isYouTubeUrl(url)) {
             const videoId = getYouTubeId(url);
             if (!videoId) {
+                console.error('Invalid YouTube URL:', url);
+                progress.invalid('audio');
+                return;
+            }
+        } else {
+            // Not a YouTube URL, handle as regular audio file
+            const music = document.getElementById('button-music');
+            let isPlay = false;
+            let audioEl = null;
+
+            try {
+                audioEl = new Audio(await cache('audio').withForceCache().get(url, progress.getAbort()));
+                audioEl.loop = true;
+                audioEl.muted = false;
+                audioEl.autoplay = false;
+                audioEl.controls = false;
+
+                progress.complete('audio');
+            } catch {
                 progress.invalid('audio');
                 return;
             }
 
+            /**
+             * @returns {Promise<void>}
+             */
+            const play = async () => {
+                if (!navigator.onLine || !music) {
+                    return;
+                }
+
+                music.disabled = true;
+                try {
+                    await audioEl.play();
+                    isPlay = true;
+                    music.disabled = false;
+                    music.innerHTML = statePlay;
+                } catch (err) {
+                    isPlay = false;
+                    util.notify(err).error();
+                }
+            };
+
+            /**
+             * @returns {void}
+             */
+            const pause = () => {
+                isPlay = false;
+                audioEl.pause();
+                music.innerHTML = statePause;
+            };
+
+            document.addEventListener('undangan.open', () => {
+                music.classList.remove('d-none');
+
+                if (playOnOpen) {
+                    play();
+                }
+            });
+
+            music.addEventListener('offline', pause);
+            music.addEventListener('click', () => isPlay ? pause() : play());
+            return;
+        }
+
+        // Handle YouTube URLs (only reached if isYouTubeUrl returned true)
+        const music = document.getElementById('button-music');
+        let isPlay = false;
+        let youtubePlayer = null;
+
+        // Handle YouTube URLs
+        {
+            const videoId = getYouTubeId(url);
             try {
                 await loadYouTubeAPI();
                 
@@ -205,60 +269,6 @@ export const audio = (() => {
                 return;
             }
         }
-
-        // Handle regular audio files
-        try {
-            audioEl = new Audio(await cache('audio').withForceCache().get(url, progress.getAbort()));
-            audioEl.loop = true;
-            audioEl.muted = false;
-            audioEl.autoplay = false;
-            audioEl.controls = false;
-
-            progress.complete('audio');
-        } catch {
-            progress.invalid('audio');
-            return;
-        }
-
-        /**
-         * @returns {Promise<void>}
-         */
-        const play = async () => {
-            if (!navigator.onLine || !music) {
-                return;
-            }
-
-            music.disabled = true;
-            try {
-                await audioEl.play();
-                isPlay = true;
-                music.disabled = false;
-                music.innerHTML = statePlay;
-            } catch (err) {
-                isPlay = false;
-                util.notify(err).error();
-            }
-        };
-
-        /**
-         * @returns {void}
-         */
-        const pause = () => {
-            isPlay = false;
-            audioEl.pause();
-            music.innerHTML = statePause;
-        };
-
-        document.addEventListener('undangan.open', () => {
-            music.classList.remove('d-none');
-
-            if (playOnOpen) {
-                play();
-            }
-        });
-
-        music.addEventListener('offline', pause);
-        music.addEventListener('click', () => isPlay ? pause() : play());
     };
 
     /**
