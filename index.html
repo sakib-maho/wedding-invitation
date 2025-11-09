@@ -69,12 +69,13 @@
             height: 32px;
             vertical-align: middle;
             border-radius: 6px;
-            overflow: hidden;
+            overflow: visible;
             margin-right: 0.5rem;
             transition: filter 0.3s ease, transform 0.3s ease;
             background: transparent;
             filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
             animation: lampGlow 2s ease-in-out infinite alternate;
+            -webkit-animation: lampGlow 2s ease-in-out infinite alternate;
         }
         .lamp-icon img {
             width: 100%;
@@ -92,9 +93,20 @@
                 filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
             }
         }
-        button:hover .lamp-icon {
+        @-webkit-keyframes lampGlow {
+            0% {
+                -webkit-filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+            }
+            100% {
+                -webkit-filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1)) drop-shadow(0 0 25px rgba(255, 215, 0, 0.6));
+            }
+        }
+        button:hover .lamp-icon,
+        button:active .lamp-icon,
+        button:focus .lamp-icon {
             transform: scale(1.1);
             animation: lampGlowHover 1s ease-in-out infinite alternate;
+            -webkit-animation: lampGlowHover 1s ease-in-out infinite alternate;
         }
         @keyframes lampGlowHover {
             0% {
@@ -104,8 +116,37 @@
                 filter: drop-shadow(0 0 18px rgba(255, 215, 0, 1)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.9));
             }
         }
-        button:hover .lamp-icon img {
+        @-webkit-keyframes lampGlowHover {
+            0% {
+                -webkit-filter: drop-shadow(0 0 12px rgba(255, 215, 0, 1)) drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            }
+            100% {
+                -webkit-filter: drop-shadow(0 0 18px rgba(255, 215, 0, 1)) drop-shadow(0 0 30px rgba(255, 215, 0, 0.9));
+            }
+        }
+        button:hover .lamp-icon img,
+        button:active .lamp-icon img,
+        button:focus .lamp-icon img {
             filter: brightness(1.3) drop-shadow(0 0 6px rgba(255, 215, 0, 0.8));
+        }
+        /* Mobile-specific styles */
+        @media (max-width: 576px) {
+            .lamp-icon {
+                width: 50px;
+                height: 30px;
+                margin-right: 0.4rem;
+            }
+        }
+        /* Ensure glow works on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            .lamp-icon {
+                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.9));
+                animation: lampGlow 2s ease-in-out infinite alternate;
+                -webkit-animation: lampGlow 2s ease-in-out infinite alternate;
+            }
+            button:active .lamp-icon {
+                transform: scale(1.05);
+            }
         }
     </style>
 
