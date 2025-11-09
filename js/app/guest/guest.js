@@ -168,7 +168,7 @@ export const guest = (() => {
         slide();
         theme.spyTop();
 
-        confetti.basicAnimation();
+        // confetti.basicAnimation(); // Disabled confetti animations
         // confetti.openAnimation(); // Disabled heart-shaped confetti
 
         document.dispatchEvent(new Event('undangan.open'));
