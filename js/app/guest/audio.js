@@ -91,6 +91,8 @@ export const audio = (() => {
                 container.style.cssText = 'position: fixed; width: 1px; height: 1px; opacity: 0; pointer-events: none; z-index: -1;';
                 document.body.appendChild(container);
 
+                let playerReady = false;
+
                 youtubePlayer = new window.YT.Player('youtube-audio-player', {
                     videoId: videoId,
                     playerVars: {
@@ -103,18 +105,32 @@ export const audio = (() => {
                         loop: 1,
                         modestbranding: 1,
                         playsinline: 1,
-                        rel: 0
+                        rel: 0,
+                        playlist: videoId
                     },
                     events: {
-                        onReady: () => {
+                        onReady: (event) => {
+                            playerReady = true;
                             progress.complete('audio');
-                            // Set up loop
-                            youtubePlayer.setLoop(true);
+                            try {
+                                // Set up loop using playlist parameter
+                                event.target.setLoop(true);
+                            } catch (e) {
+                                console.warn('Could not set loop:', e);
+                            }
                         },
                         onStateChange: (event) => {
                             if (event.data === window.YT.PlayerState.ENDED) {
-                                youtubePlayer.playVideo();
+                                try {
+                                    event.target.playVideo();
+                                } catch (e) {
+                                    console.warn('Could not replay video:', e);
+                                }
                             }
+                        },
+                        onError: (event) => {
+                            console.error('YouTube player error:', event.data);
+                            progress.invalid('audio');
                         }
                     }
                 });
@@ -124,37 +140,67 @@ export const audio = (() => {
                         return;
                     }
 
+                    if (!playerReady) {
+                        // Wait for player to be ready
+                        const checkReady = setInterval(() => {
+                            if (playerReady && youtubePlayer) {
+                                clearInterval(checkReady);
+                                play();
+                            }
+                        }, 100);
+                        setTimeout(() => clearInterval(checkReady), 5000);
+                        return;
+                    }
+
                     music.disabled = true;
                     try {
+                        const state = youtubePlayer.getPlayerState();
+                        if (state === window.YT.PlayerState.PLAYING) {
+                            isPlay = true;
+                            music.disabled = false;
+                            music.innerHTML = statePlay;
+                            return;
+                        }
                         youtubePlayer.playVideo();
                         isPlay = true;
                         music.disabled = false;
                         music.innerHTML = statePlay;
                     } catch (err) {
                         isPlay = false;
-                        util.notify(err).error();
+                        music.disabled = false;
+                        console.error('Error playing YouTube video:', err);
+                        // Don't show error notification, just log it
                     }
                 };
 
                 const pause = () => {
                     isPlay = false;
-                    if (youtubePlayer) {
-                        youtubePlayer.pauseVideo();
+                    if (youtubePlayer && playerReady) {
+                        try {
+                            youtubePlayer.pauseVideo();
+                        } catch (e) {
+                            console.warn('Could not pause video:', e);
+                        }
                     }
                     music.innerHTML = statePause;
                 };
 
                 document.addEventListener('undangan.open', () => {
-                    music.classList.remove('d-none');
-                    if (playOnOpen) {
-                        play();
+                    if (music) {
+                        music.classList.remove('d-none');
+                        if (playOnOpen) {
+                            play();
+                        }
                     }
                 });
 
-                music.addEventListener('offline', pause);
-                music.addEventListener('click', () => isPlay ? pause() : play());
+                if (music) {
+                    music.addEventListener('offline', pause);
+                    music.addEventListener('click', () => isPlay ? pause() : play());
+                }
                 return;
             } catch (err) {
+                console.error('Error loading YouTube audio:', err);
                 progress.invalid('audio');
                 return;
             }
