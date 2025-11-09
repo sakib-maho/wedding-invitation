@@ -62,6 +62,34 @@
     <link rel="stylesheet" href="https://testingcf.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/guest.css">
 
+    <style>
+        .lamp-icon {
+            display: inline-block;
+            width: 55px;
+            height: 32px;
+            vertical-align: middle;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-right: 0.5rem;
+            transition: filter 0.3s ease, transform 0.3s ease;
+            background: transparent;
+        }
+        .lamp-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: transparent;
+        }
+        button:hover .lamp-icon {
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+            transform: scale(1.1);
+        }
+        button:hover .lamp-icon img {
+            filter: brightness(1.2) drop-shadow(0 0 4px rgba(255, 215, 0, 0.6));
+        }
+    </style>
+
     <!-- Dependencies JS -->
     <script defer src="https://testingcf.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha256-5P1JGBOIxI7FBAvT/mb1fCnI5n/NhQKzNUuW7Hq0fMc=" crossorigin="anonymous"></script>
     <script src="./dist/guest.js"></script>
@@ -110,7 +138,7 @@
                 </div>
 
                 <div class="text-center p-4 bg-overlay-auto rounded-5">
-                    <h2 class="font-esthetic mb-4" style="font-size: 2rem;">Summer &amp; Gaoyang</h2>
+                    <h2 class="font-esthetic mb-4" style="font-size: 2rem;">Sakib &amp; Shabrina</h2>
                     <p class="m-0" style="font-size: 1rem;">October 8, 2025</p>
                 </div>
             </div>
@@ -172,7 +200,7 @@
                             <img src="./assets/images/placeholder.webp" data-src="./assets/images/bg1.webp" fetchpriority="high" decoding="async" alt="bg" class="img-center-crop rounded-circle border border-3 border-light shadow my-4 mx-auto cursor-pointer">
                         </button>
 
-                        <h2 class="font-esthetic my-4" style="font-size: 2.25rem;">Summer &amp; Gaoyang</h2>
+                        <h2 class="font-esthetic my-4" style="font-size: 2.25rem;">Sakib &amp; Shabrina</h2>
                         <p class="my-2" style="font-size: 1.5rem;">October 8, 2025</p>
 
                         <button class="btn btn-outline-auto btn-sm shadow rounded-pill px-3 py-1" style="font-size: 0.825rem;">
@@ -216,7 +244,7 @@
                                 <button type="button" class="p-0 border-0 bg-transparent img-btn-accessible" onclick="undangan.guest.modal(this.querySelector('img'))" onkeydown="if(event.key==='Enter'||event.key===' '){undangan.guest.modal(this.querySelector('img'));}" aria-label="View photo groom" style="outline:none;">
                                     <img src="./assets/images/placeholder.webp" data-src="./assets/images/xt1.webp" fetchpriority="high" decoding="async" alt="cowo" class="img-center-crop rounded-circle border border-3 border-light shadow my-4 mx-auto cursor-pointer">
                                 </button>
-                                <h2 class="font-esthetic m-0" style="font-size: 2.125rem;">Groom Summer</h2>
+                                <h2 class="font-esthetic m-0" style="font-size: 2.125rem;">Groom Sakib</h2>
                             </div>
 
                             <!-- Love animation -->
@@ -241,7 +269,7 @@
                                 <button type="button" class="p-0 border-0 bg-transparent img-btn-accessible" onclick="undangan.guest.modal(this.querySelector('img'))" onkeydown="if(event.key==='Enter'||event.key===' '){undangan.guest.modal(this.querySelector('img'));}" aria-label="View photo bride" style="outline:none;">
                                     <img src="./assets/images/placeholder.webp" data-src="./assets/images/gy1.webp" fetchpriority="high" decoding="async" alt="cewe" class="img-center-crop rounded-circle border border-3 border-light shadow my-4 mx-auto cursor-pointer">
                                 </button>
-                                <h2 class="font-esthetic m-0" style="font-size: 2.125rem;">Bride Gaoyang</h2>
+                                <h2 class="font-esthetic m-0" style="font-size: 2.125rem;">Bride Shabrina</h2>
                             </div>
 
                             <!-- Love animation -->
@@ -306,7 +334,7 @@
                                         <div class="col mt-1 mb-3 ps-0">
                                             <p class="fw-bold mb-2">🍲 Beautiful First Meeting</p>
                                             <p class="small mb-0">
-                                                On July 22, 2023, through a friend's introduction, Summer and Gaoyang met at a hot pot restaurant. At their first meeting, they talked about their interests and lives, creating a relaxed and warm atmosphere. The steam from the hot pot seemed to foretell a warm fate, leaving a deep impression on both. From this moment, two hearts quietly drew closer. Although they hadn't yet expressed their feelings, smiles and glances already held affection.
+                                                On July 22, 2023, through a friend's introduction, Sakib and Shabrina met at a hot pot restaurant. At their first meeting, they talked about their interests and lives, creating a relaxed and warm atmosphere. The steam from the hot pot seemed to foretell a warm fate, leaving a deep impression on both. From this moment, two hearts quietly drew closer. Although they hadn't yet expressed their feelings, smiles and glances already held affection.
                                             </p>
                                         </div>
                                     </div>
@@ -318,7 +346,7 @@
                                         <div class="col mt-1 mb-3 ps-0">
                                             <p class="fw-bold mb-2">💞 Growing Love</p>
                                             <p class="small mb-0">
-                                                As their relationship deepened, Summer and Gaoyang's feelings gradually warmed. They experienced life's little joys together, supported each other, and shared dreams and goals. On May 19, 2024, after a long period of understanding and mutual understanding, they officially got engaged, promising to walk hand in hand through every stage of life. On that day of engagement, laughter and happiness filled their hearts, and family and friends felt genuine joy for them.
+                                                As their relationship deepened, Sakib and Shabrina's feelings gradually warmed. They experienced life's little joys together, supported each other, and shared dreams and goals. On May 19, 2024, after a long period of understanding and mutual understanding, they officially got engaged, promising to walk hand in hand through every stage of life. On that day of engagement, laughter and happiness filled their hearts, and family and friends felt genuine joy for them.
                                             </p>
                                         </div>
                                     </div>
@@ -330,7 +358,7 @@
                                         <div class="col mt-1 mb-3 ps-0">
                                             <p class="fw-bold mb-2">💍 Planned Happy Wedding</p>
                                             <p class="small mb-0">
-                                                Summer and Gaoyang plan to hold their wedding on October 8, 2025, when they will officially begin a new chapter of life in the presence of family and friends. They carefully prepare every detail, from ceremony arrangements to vows, all filled with love and commitment to each other. The wedding is not only a witness to love but also a fusion of two families' hearts. On that day, laughter, tears, and happiness will intertwine, symbolizing their beautiful beginning together toward the future.
+                                                Sakib and Shabrina plan to hold their wedding on October 8, 2025, when they will officially begin a new chapter of life in the presence of family and friends. They carefully prepare every detail, from ceremony arrangements to vows, all filled with love and commitment to each other. The wedding is not only a witness to love but also a fusion of two families' hearts. On that day, laughter, tears, and happiness will intertwine, symbolizing their beautiful beginning together toward the future.
                                             </p>
                                         </div>
                                     </div>
@@ -582,7 +610,7 @@
 
                         <div class="row align-items-center justify-content-between flex-column pb-3">
                             <div class="col-auto">
-                                <small>Made with <i class="fa-solid fa-heart mx-1">love</i> by Summer</small>
+                                <small>Made with <i class="fa-solid fa-heart mx-1">love</i> by Sakib</small>
                             </div>
                             <div class="col-auto">
                                 <small><i class="fa-brands fa-github me-1"></i><a target="_blank" href="https://github.com/summer-88/wedding">GitHub</a></small>
@@ -665,10 +693,15 @@
 
                 <img src="./assets/images/placeholder.webp" data-src="./assets/images/bg1.webp" fetchpriority="high" decoding="async" alt="background" class="img-center-crop rounded-circle border border-3 border-light shadow mb-4 mx-auto">
 
-                <h2 class="font-esthetic mb-4" style="font-size: 2.25rem;">Summer &amp; Gaoyang</h2>
+                <h2 class="font-esthetic mb-4" style="font-size: 2.25rem;">Sakib &amp; Shabrina</h2>
                 <div id="guest-name" data-message="To Dear"></div>
 
-                <button type="button" class="btn btn-light shadow rounded-4 mt-3 mx-auto" onclick="undangan.guest.open(this)"><i class="fa-solid fa-envelope-open fa-bounce me-2"></i>Open Invitation</button>
+                <button type="button" class="btn btn-light shadow rounded-4 mt-3 mx-auto d-flex align-items-center" onclick="undangan.guest.open(this)">
+                    <span class="lamp-icon">
+                        <img src="./assets/images/lamp-transpa.gif" alt="lamp">
+                    </span>
+                    <span>Rub The Magic Lamp</span>
+                </button>
             </div>
         </div>
     </div>
@@ -700,7 +733,7 @@
         </div>
         <div class="text-center position-fixed w-100" style="bottom: 8%; left: 0;">
             <div class="d-flex flex-column">
-                <small class="text-secondary">Made by Summer</small>
+                <small class="text-secondary">Made by Sakib</small>
                 <small class="text-theme-auto"><i class="fa-brands fa-github me-1"></i>Supported</small>
             </div>
         </div>
