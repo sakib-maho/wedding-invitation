@@ -169,7 +169,7 @@ export const guest = (() => {
         theme.spyTop();
 
         confetti.basicAnimation();
-        util.timeOut(confetti.openAnimation, 1500);
+        // confetti.openAnimation(); // Disabled heart-shaped confetti
 
         document.dispatchEvent(new Event('undangan.open'));
         util.changeOpacity(document.getElementById('welcome'), false).then((el) => el.remove());
