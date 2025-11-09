@@ -93,6 +93,8 @@ html[data-bs-theme="light"] .btn-transparent {
         z-index: 0 !important;
         display: block !important;
         visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: none !important;
     }
 }
 

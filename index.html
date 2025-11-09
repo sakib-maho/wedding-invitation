@@ -603,10 +603,11 @@
             (function() {
                 const video = document.getElementById('welcome-video');
                 if (video) {
-                    // Ensure video is visible
+                    // Ensure video is visible on desktop
                     video.style.display = 'block';
                     video.style.visibility = 'visible';
                     video.style.opacity = '1';
+                    video.style.zIndex = '0';
                     
                     let isSeeking = false;
                     
@@ -624,11 +625,18 @@
                     // Try to play when video can play
                     const tryPlay = function() {
                         setStartTime();
-                        video.play().catch(function(error) {
-                            console.log('Video autoplay prevented:', error);
-                            // Try again after a short delay
-                            setTimeout(tryPlay, 100);
-                        });
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(function(error) {
+                                console.log('Video autoplay prevented:', error);
+                                // Try again after a short delay, especially for desktop
+                                setTimeout(function() {
+                                    video.play().catch(function(e) {
+                                        console.log('Retry play failed:', e);
+                                    });
+                                }, 500);
+                            });
+                        }
                     };
                     
                     // Ensure video loops from 1 second to 5 seconds
@@ -652,24 +660,39 @@
                         }
                     });
                     
+                    // Ensure video plays when it becomes visible (for desktop)
+                    video.addEventListener('loadedmetadata', function() {
+                        setStartTime();
+                    });
+                    
                     // Try to play when loaded
                     if (video.readyState >= 2) {
                         setStartTime();
-                        setTimeout(tryPlay, 100);
+                        setTimeout(tryPlay, 200);
                     } else {
-                        video.addEventListener('loadedmetadata', function() {
-                            setStartTime();
-                        });
                         video.addEventListener('loadeddata', function() {
                             setStartTime();
-                            setTimeout(tryPlay, 100);
+                            setTimeout(tryPlay, 200);
                         });
                         video.addEventListener('canplay', function() {
                             setStartTime();
                             tryPlay();
                         });
+                        video.addEventListener('canplaythrough', function() {
+                            setStartTime();
+                            tryPlay();
+                        });
                         video.load();
                     }
+                    
+                    // Force play on user interaction (for desktop browsers that block autoplay)
+                    document.addEventListener('click', function() {
+                        if (video.paused) {
+                            video.play().catch(function(e) {
+                                console.log('Click play failed:', e);
+                            });
+                        }
+                    }, { once: true });
                 }
             })();
         </script>
