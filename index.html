@@ -596,106 +596,25 @@
     <div class="loading-page" id="welcome" style="opacity: 1; position: fixed; inset: 0; margin: 0; padding: 0; background-color: transparent; overflow: hidden; width: 100vw; left: 0; right: 0; top: 0;">
         <!-- Video Background covering full width -->
         <video id="welcome-video" autoplay loop muted playsinline preload="auto" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; object-position: center; z-index: 0; margin: 0; padding: 0; min-width: 100vw; min-height: 100vh; display: block; visibility: visible; background-color: transparent;">
-            <source src="./assets/images/Copy of Gold and Teal Illustrated Nikaah Invitation Mobile Video.mp4" type="video/mp4">
+            <source src="./assets/images/Copy of Gold and Teal Illustrated_Nikaah_Invitation_Mobile.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <script>
             (function() {
                 const video = document.getElementById('welcome-video');
                 if (video) {
-                    // Force video to be visible (same as mobile)
-                    video.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; object-position: center; z-index: 0; margin: 0; padding: 0; min-width: 100vw; min-height: 100vh; display: block !important; visibility: visible !important; opacity: 1 !important; background-color: transparent;';
+                    // Ensure video is visible
+                    video.style.display = 'block';
+                    video.style.visibility = 'visible';
+                    video.style.opacity = '1';
                     
-                    let isSeeking = false;
-                    
-                    // Set start time to 1 second
-                    const setStartTime = function() {
-                        if (video.readyState >= 2 && !isSeeking) {
-                            isSeeking = true;
-                            video.currentTime = 1;
-                            setTimeout(function() {
-                                isSeeking = false;
-                            }, 100);
-                        }
-                    };
-                    
-                    // Try to play when video can play
-                    const tryPlay = function() {
-                        setStartTime();
-                        const playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.then(function() {
-                                // Video started playing
-                                console.log('Video playing');
-                            }).catch(function(error) {
-                                console.log('Video autoplay prevented:', error);
-                                // Try again after a delay
-                                setTimeout(function() {
-                                    video.play().catch(function(e) {
-                                        console.log('Retry play failed:', e);
-                                    });
-                                }, 1000);
-                            });
-                        }
-                    };
-                    
-                    // Ensure video loops from 1 second to 5 seconds
-                    video.addEventListener('timeupdate', function() {
-                        if (!isSeeking && video.currentTime >= 4.9) {
-                            isSeeking = true;
-                            video.currentTime = 1;
-                            setTimeout(function() {
-                                isSeeking = false;
-                            }, 100);
-                        }
-                    });
-                    
-                    // Also handle seeking to ensure we start at 1 second
-                    video.addEventListener('seeked', function() {
-                        if (video.currentTime < 1) {
-                            video.currentTime = 1;
-                        }
-                        if (video.currentTime > 5) {
-                            video.currentTime = 1;
-                        }
-                    });
-                    
-                    // Ensure video plays when it becomes visible
+                    // Play video from beginning normally
                     video.addEventListener('loadedmetadata', function() {
-                        setStartTime();
+                        video.currentTime = 0; // Start from beginning
+                        video.play().catch(function(err) {
+                            console.log('Autoplay blocked:', err);
+                        });
                     });
-                    
-                    // Try to play when loaded
-                    if (video.readyState >= 2) {
-                        setStartTime();
-                        setTimeout(tryPlay, 300);
-                    } else {
-                        video.addEventListener('loadeddata', function() {
-                            setStartTime();
-                            setTimeout(tryPlay, 300);
-                        });
-                        video.addEventListener('canplay', function() {
-                            setStartTime();
-                            tryPlay();
-                        });
-                        video.addEventListener('canplaythrough', function() {
-                            setStartTime();
-                            tryPlay();
-                        });
-                        video.load();
-                    }
-                    
-                    // Force play on any user interaction (for desktop browsers that block autoplay)
-                    const playOnInteraction = function() {
-                        if (video.paused) {
-                            video.play().catch(function(e) {
-                                console.log('Interaction play failed:', e);
-                            });
-                        }
-                    };
-                    document.addEventListener('click', playOnInteraction, { once: true });
-                    document.addEventListener('touchstart', playOnInteraction, { once: true });
-                    document.addEventListener('keydown', playOnInteraction, { once: true });
                 }
             })();
         </script>
